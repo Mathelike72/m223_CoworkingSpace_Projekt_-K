@@ -1,11 +1,13 @@
 package ch.zli.m223.model;
 import javax.persistence.*;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import java.io.Serializable;
 import java.util.List;
 
 //Bestimmung der unterschiedlichen Entitys
 @Entity
-public class Benutzer {
+public class Benutzer implements Serializable{
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Schema(readOnly = true)
@@ -25,7 +27,7 @@ public class Benutzer {
 
   @OneToMany
   private List<Buchungen> buchungen;
- 
+
   @ManyToMany
   @JoinTable(
     name = "benutzer_abos",
