@@ -1,10 +1,9 @@
-# Übungsprojekt: Punch Clock
+# Modul Projekt für Modul 223 Multi-User_Implementieren
 
-Punch Clock ist ein Zeiterfassungssystem, welches mit Quarkus entwickelt wird.
+Das Projekt vertritt ein Coworking Space, welches mit Quarkus entwickelt wird.
 
 ## Erste Schritte
 
-1. Erstelle eine Kopie (fork) von diesem Projekt.
 1. Stelle sicher, dass Docker installiert ist und läuft.
 1. Stelle sicher, dass Visual Studio Code und die Erweiterung Remote Container installiert ist.
 1. Klone (clone) das Projekt lokal, um damit arbeiten zu können.
@@ -29,4 +28,4 @@ Die Daten werden in einer PostgreSQL-Datenbank gespeichert. In der Entwicklungsu
 
 ## Automatische Tests
 
-Die automatischen Tests können mit `./mvnw quarkus:test` ausgeführt werden. Für die automatischen Tests wird nicht die PostgreSQL-Datenbank verwendet, sondern eine H2-Datenbank, welche sich im Arbeitsspeicher während der Ausführung befindet.
+Die automatischen Tests können mit `./mvn quarkus:test` ausgeführt werden. Für die automatischen Tests wird nicht die PostgreSQL-Datenbank verwendet, sondern eine H2-Datenbank, welche sich im Arbeitsspeicher während der Ausführung befindet.
