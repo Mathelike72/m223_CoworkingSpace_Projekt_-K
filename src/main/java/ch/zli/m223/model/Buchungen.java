@@ -1,12 +1,10 @@
 package ch.zli.m223.model;
+
 import javax.persistence.*;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 //Bestimmung der unterschiedlichen Entitys
