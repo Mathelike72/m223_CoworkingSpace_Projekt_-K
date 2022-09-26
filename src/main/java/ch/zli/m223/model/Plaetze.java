@@ -20,7 +20,7 @@ public class Plaetze implements Serializable{
     @Column(nullable = true)
     private int platzNr;
 
-    @ManyToMany(mappedBy="Plaetze")
+    @ManyToMany(mappedBy="plaetze")
     @JsonIgnore
     private Set<Benutzer> benutzer;
 

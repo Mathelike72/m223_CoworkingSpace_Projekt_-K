@@ -20,7 +20,7 @@ public class Abos implements Serializable{
     @Column(nullable = true)
     private boolean status;
 
-    @ManyToMany(mappedBy="Abos")
+    @ManyToMany(mappedBy="abos")
     @JsonIgnore
     private Set<Benutzer> benutzer;
 

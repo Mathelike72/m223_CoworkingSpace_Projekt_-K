@@ -1,9 +1,10 @@
 package ch.zli.m223.model;
+
 import javax.persistence.*;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 //Bestimmung der unterschiedlichen Entitys
 @Entity
@@ -25,8 +26,8 @@ public class Benutzer implements Serializable{
   @Column(nullable = false)
   private String password;
 
-  @OneToMany
-  private List<Buchungen> buchungen;
+  @OneToMany(mappedBy="benutzer")
+  private Set<Buchungen> buchungen;
 
   @ManyToMany
   @JoinTable(
@@ -92,11 +93,11 @@ public class Benutzer implements Serializable{
   }
 
   //Getter und Setter für Buchungen
-  public List<Buchungen> getBuchungen() {
+  public Set<Buchungen> getBuchungen() {
     return buchungen;
   }
 
-  public void setBuchungen(List<Buchungen> buchungen) {
+  public void setBuchungen(Set<Buchungen> buchungen) {
     this.buchungen = buchungen;
   }
 

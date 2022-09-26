@@ -2,10 +2,9 @@ package ch.zli.m223.model;
 
 import javax.persistence.*;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Set;
+
 
 //Bestimmung der unterschiedlichen Entitys
 @Entity
@@ -24,9 +23,9 @@ public class Buchungen implements Serializable{
     @Column(nullable = false)
     private LocalDateTime endDate;
 
-    @OneToOne(mappedBy="Buchungen")
-    @JsonIgnore
-    private Set<Benutzer> benutzer;
+    @ManyToOne 
+    @JoinColumn(name="benutzer_id", nullable=false)
+    private Benutzer benutzer;
 
     //Getter und Setter der einzlenen Entitys Buchungen
 
@@ -67,12 +66,12 @@ public class Buchungen implements Serializable{
         this.endDate = endDate;
     }
 
-    //Getter und Setter für Benutzer_ID
-    public Set<Benutzer> getBenutzer() {
+    //Getter und Setter für Abos
+    public Benutzer getBenutzer() {
         return benutzer;
     }
 
-    public void setBenutzer(Set<Benutzer> benutzer) {
+    public void setBenutzer(Benutzer benutzer) {
         this.benutzer = benutzer;
     }
 }
