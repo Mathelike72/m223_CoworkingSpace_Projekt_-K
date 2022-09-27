@@ -24,12 +24,7 @@ public class BenutzerController {
     @Inject
     BenutzerService benutzerService;
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Benutzer> index() {
-        return benutzerService.findAll();
-    }
-
+    // Hier befinden sich alle POST Requests
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -43,6 +38,14 @@ public class BenutzerController {
         }
     }
 
+    // Hier befinden sich alle GET Requests
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Benutzer> index() {
+        return benutzerService.findAll();
+    }
+
+    // Hier befinden sich alle PUT Requests
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -58,11 +61,12 @@ public class BenutzerController {
         }
     }
 
+    // Hier befinden sich alle DELETE Requests
     @Path("/{id}")
     @DELETE
-    public Response deleteUser(Long id) {
+    public Response deleteBenutzer(Long id) {
         try {
-            benutzerService.deleteUser(id);
+            benutzerService.deleteBenutzer(id);
             return Response.noContent().build();
         } catch (NullValueException e) {
             System.out.println(e);
