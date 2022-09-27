@@ -10,6 +10,7 @@ import java.util.Set;
 @Entity
 public class Plaetze implements Serializable{
     @Id
+    @Column(name = "plaetze_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(readOnly = true)
     private Long id;
