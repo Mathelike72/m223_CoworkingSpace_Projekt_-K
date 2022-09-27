@@ -26,6 +26,9 @@ public class Benutzer implements Serializable{
   @Column(nullable = false)
   private String password;
 
+  @Column(nullable = false)
+  private boolean isAdmin;
+
   @OneToMany(mappedBy="benutzer")
   private Set<Buchungen> buchungen;
 
