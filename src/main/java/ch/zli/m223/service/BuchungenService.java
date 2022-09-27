@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import ch.zli.m223.model.Buchungen;
 import ch.zli.m223.model.Benutzer;
 
+
 @ApplicationScoped
 public class BuchungenService {
     @Inject
@@ -18,9 +19,9 @@ public class BuchungenService {
         return query.getResultList();
     }
 
-    public List<Buchungen> findAll(int userId) {
-        var query = entityManager.createQuery("SELECT b FROM Buchungen b JOIN Benutzer u ON b.benutzer=u WHERE u.id= :Benutze_Id");
-        query.setParameter("Benutzer_Id", Benutzer_Id);
+    public List<Buchungen> findAll(int benutzerId) {
+        var query = entityManager.createQuery("SELECT b FROM Buchungen b JOIN Benutzer u ON b.benutzer=u WHERE u.id= :benutzerId");
+        query.setParameter("benutzerId", benutzerId);
         return query.getResultList();
     }
 
@@ -29,6 +30,12 @@ public class BuchungenService {
         entityManager.persist(buchungen);
         return buchungen;
     }
+
+    @Transactional
+    public Buchungen getBuchungen(Long buchungenId) {
+        return entityManager.find(Buchungen.class, buchungenId);
+    }
+
 
     @Transactional
     public Buchungen updateBuchungen(Buchungen buchungen) {

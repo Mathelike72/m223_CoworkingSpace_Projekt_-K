@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 public class Buchungen implements Serializable{
     @Id
+    @Column(name = "buchungen_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(readOnly = true)
     private Long id;

@@ -15,43 +15,39 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ch.zli.m223.exceptions.NullValueException;
-import ch.zli.m223.model.Benutzer;
-import ch.zli.m223.service.BenutzerService;
+import ch.zli.m223.model.Buchungen;
+import ch.zli.m223.service.BuchungenService;
 
-@Path("/users")
-public class BenutzerController {
-
+@Path("/buchungen")
+public class BuchungenController {
     @Inject
-    BenutzerService benutzerService;
+    BuchungenService buchungenService;
 
-    // Hier befinden sich alle POST Requests
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Buchungen> index() {
+        return buchungenService.findAll();
+    }
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response create(Benutzer benutzer) {
+    public Response create(Buchungen buchungen) {
         try {
-            Benutzer createdBenutzer = benutzerService.createBenutzer(benutzer);
-            return Response.ok(createdBenutzer).build();
+            Buchungen createdBuchungen = buchungenService.createBuchungen(buchungen);
+            return Response.ok(createdBuchungen).build();
         } catch (Exception e) {
             System.out.println(e);
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
 
-    // Hier befinden sich alle GET Requests
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Benutzer> index() {
-        return benutzerService.findAll();
-    }
-
-    // Hier befinden sich alle PUT Requests
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateBenutzer(Benutzer benutzer) {
+    public Response updateBuchungen(Buchungen buchungen) {
         try {
-            return Response.ok(benutzerService.updateBenutzer(benutzer)).build();
+            return Response.ok(buchungenService.updateBuchungen(buchungen)).build();
         } catch (IllegalArgumentException e) {
             System.out.println(e);
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -61,12 +57,11 @@ public class BenutzerController {
         }
     }
 
-    // Hier befinden sich alle DELETE Requests
     @Path("/{id}")
     @DELETE
-    public Response deleteBenutzer(Long id) {
+    public Response deleteBooking(Long id) {
         try {
-            benutzerService.deleteBenutzer(id);
+            buchungenService.deleteBuchungen(id);
             return Response.noContent().build();
         } catch (NullValueException e) {
             System.out.println(e);
@@ -74,4 +69,22 @@ public class BenutzerController {
         }
     }
 
+    @Path("/review/{id}/{accept}")
+    @GET
+    public Response changeBuchungenStatus(Long id, Boolean status) {
+        Buchungen buchungen = buchungenService.getBuchungen(id);
+        buchungen.setStatus(status);
+        buchungenService.updateBuchungen(buchungen);
+        return Response.ok().build();
+    }
+
+    @Path("/cancel/{id}")
+    @GET
+    public Response cancelBooking(Long id) {
+        //TODO: get user id through claim if not admin
+        Buchungen buchungen = buchungenService.getBuchungen(id);
+        buchungen.setStatus(false);
+        buchungenService.updateBuchungen(buchungen);
+        return Response.ok().build();
+    }
 }
