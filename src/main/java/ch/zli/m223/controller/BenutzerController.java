@@ -18,7 +18,7 @@ import ch.zli.m223.exceptions.NullValueException;
 import ch.zli.m223.model.Benutzer;
 import ch.zli.m223.service.BenutzerService;
 
-@Path("/users")
+@Path("/benutzer")
 public class BenutzerController {
 
     @Inject

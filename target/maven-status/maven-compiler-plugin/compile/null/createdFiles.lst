@@ -1,7 +1,7 @@
 ch/zli/m223/model/Plaetze.class
-ch/zli/m223/model/Abos.class
 ch/zli/m223/model/Buchungen.class
-ch/zli/m223/security/jwt/TokenSecuredResource.class
 ch/zli/m223/model/Benutzer.class
-ch/zli/m223/service/BenutzerService.class
 ch/zli/m223/controller/BenutzerController.class
+ch/zli/m223/model/Abos.class
+ch/zli/m223/security/jwt/TokenSecuredResource.class
+ch/zli/m223/service/BenutzerService.class

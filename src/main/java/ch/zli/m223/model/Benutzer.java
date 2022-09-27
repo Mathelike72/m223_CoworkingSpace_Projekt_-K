@@ -3,6 +3,7 @@ package ch.zli.m223.model;
 import javax.persistence.*;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import java.io.Serializable;
+
 import java.util.List;
 import java.util.Set;
 

@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response;
 import ch.zli.m223.model.Plaetze;
 import ch.zli.m223.service.PlaetzeService;
 
-@Path("/abos")
+@Path("/plaetze")
 public class PlaetzeController {
     @Inject
     PlaetzeService plaetzeService;
