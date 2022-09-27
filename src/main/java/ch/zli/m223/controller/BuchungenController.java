@@ -45,7 +45,7 @@ public class BuchungenController {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateBooking(Buchungen buchungen) {
+    public Response updateBuchungen(Buchungen buchungen) {
         try {
             return Response.ok(buchungenService.updateBuchungen(buchungen)).build();
         } catch (IllegalArgumentException e) {
@@ -73,7 +73,7 @@ public class BuchungenController {
     @GET
     public Response changeBuchungenStatus(Long id, Boolean status) {
         Buchungen buchungen = buchungenService.getBuchungen(id);
-        buchungen.setIsAccepted(status);
+        buchungen.setStatus(status);
         buchungenService.updateBuchungen(buchungen);
         return Response.ok().build();
     }
@@ -83,7 +83,7 @@ public class BuchungenController {
     public Response cancelBooking(Long id) {
         //TODO: get user id through claim if not admin
         Buchungen buchungen = buchungenService.getBuchungen(id);
-        buchungen.setIsAccepted(false);
+        buchungen.setStatus(false);
         buchungenService.updateBuchungen(buchungen);
         return Response.ok().build();
     }

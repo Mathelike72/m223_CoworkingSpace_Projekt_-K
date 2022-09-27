@@ -20,8 +20,8 @@ public class BuchungenService {
     }
 
     public List<Buchungen> findAll(int benutzerId) {
-        var query = entityManager.createQuery("SELECT b FROM Buchungen b JOIN Benutzer u ON b.benutzer=u WHERE u.id= :benutzer_Id");
-        query.setParameter("benutzer_Id", benutzerId);
+        var query = entityManager.createQuery("SELECT b FROM Buchungen b JOIN Benutzer u ON b.benutzer=u WHERE u.id= :benutzerId");
+        query.setParameter("benutzerId", benutzerId);
         return query.getResultList();
     }
 
@@ -30,6 +30,12 @@ public class BuchungenService {
         entityManager.persist(buchungen);
         return buchungen;
     }
+
+    @Transactional
+    public Buchungen getBuchungen(Long buchungenId) {
+        return entityManager.find(Buchungen.class, buchungenId);
+    }
+
 
     @Transactional
     public Buchungen updateBuchungen(Buchungen buchungen) {

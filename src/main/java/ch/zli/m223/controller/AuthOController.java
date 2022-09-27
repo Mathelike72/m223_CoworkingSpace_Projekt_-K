@@ -3,6 +3,8 @@ package ch.zli.m223.controller;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.persistence.EntityExistsException;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -14,13 +16,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.eclipse.microprofile.openapi.annotations.Operation;
-import org.eclipse.microprofile.openapi.annotations.tags.Tag;
-
 import ch.zli.m223.model.Benutzer;
 import ch.zli.m223.model.Login;
 import ch.zli.m223.security.jwt.TokenSecuredResource;
+import ch.zli.m223.exceptions.InvalidLoginException;
 import ch.zli.m223.service.BenutzerService;
+
 
 public class AuthOController {
 
