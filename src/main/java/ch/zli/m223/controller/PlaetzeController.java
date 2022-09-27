@@ -1,0 +1,74 @@
+package ch.zli.m223.controller;
+
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.persistence.TransactionRequiredException;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import ch.zli.m223.model.Plaetze;
+import ch.zli.m223.service.PlaetzeService;
+
+@Path("/abos")
+public class PlaetzeController {
+    @Inject
+    PlaetzeService plaetzeService;
+
+    // Hier befinden sich alle POST Requests
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response create(Plaetze plaetze) {
+        try {
+            Plaetze createdPlaetze = plaetzeService.createPlaetze(plaetze);
+            return Response.ok(createdPlaetze).build();
+        } catch (Exception e) {
+            System.out.println(e);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
+
+    // Hier befinden sich alle GET Requests
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Plaetze> index() {
+        return plaetzeService.findAll();
+    }
+
+    // Hier befinden sich alle PUT Requests
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updatePlaetze(Plaetze plaetze) {
+        try {
+            return Response.ok(plaetzeService.updatePlaetze(plaetze)).build();
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (TransactionRequiredException e) {
+            System.out.println(e);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
+    
+    // Hier befinden sich alle DELETE Requests
+    @Path("/{id}")
+    @DELETE
+    public Response deletePlaetze(Long id) {
+        try {
+            plaetzeService.deletePlaetze(id);
+            return Response.noContent().build();
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
+}

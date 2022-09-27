@@ -14,7 +14,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import ch.zli.m223.exceptions.NullValueException;
 import ch.zli.m223.model.Buchungen;
 import ch.zli.m223.service.BuchungenService;
 
@@ -23,12 +22,7 @@ public class BuchungenController {
     @Inject
     BuchungenService buchungenService;
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Buchungen> index() {
-        return buchungenService.findAll();
-    }
-
+    // Hier befinden sich alle POST Requests
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -42,6 +36,23 @@ public class BuchungenController {
         }
     }
 
+    // Hier befinden sich alle GET Requests
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Buchungen> index() {
+        return buchungenService.findAll();
+    }
+
+    @Path("/review/{id}/{accept}")
+    @GET
+    public Response changeBuchungenStatus(Long id, Boolean status) {
+        Buchungen buchungen = buchungenService.getBuchungen(id);
+        buchungen.setStatus(status);
+        buchungenService.updateBuchungen(buchungen);
+        return Response.ok().build();
+    }
+
+    // Hier befinden sich alle PUT Requests
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -57,34 +68,26 @@ public class BuchungenController {
         }
     }
 
+    @Path("/ablehnen/{id}")
+    @PUT
+    public Response cancelBuchungen(Long id) {
+        //TODO: get user id through claim if not admin
+        Buchungen buchungen = buchungenService.getBuchungen(id);
+        buchungen.setStatus(false);
+        buchungenService.updateBuchungen(buchungen);
+        return Response.ok().build();
+    }
+
+    // Hier befinden sich alle DELETE Requests
     @Path("/{id}")
     @DELETE
     public Response deleteBooking(Long id) {
         try {
             buchungenService.deleteBuchungen(id);
             return Response.noContent().build();
-        } catch (NullValueException e) {
+        } catch (IllegalArgumentException e) {
             System.out.println(e);
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-    }
-
-    @Path("/review/{id}/{accept}")
-    @GET
-    public Response changeBuchungenStatus(Long id, Boolean status) {
-        Buchungen buchungen = buchungenService.getBuchungen(id);
-        buchungen.setStatus(status);
-        buchungenService.updateBuchungen(buchungen);
-        return Response.ok().build();
-    }
-
-    @Path("/cancel/{id}")
-    @GET
-    public Response cancelBooking(Long id) {
-        //TODO: get user id through claim if not admin
-        Buchungen buchungen = buchungenService.getBuchungen(id);
-        buchungen.setStatus(false);
-        buchungenService.updateBuchungen(buchungen);
-        return Response.ok().build();
     }
 }

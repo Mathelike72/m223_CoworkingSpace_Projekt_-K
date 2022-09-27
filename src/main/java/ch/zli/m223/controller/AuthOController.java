@@ -28,6 +28,7 @@ public class AuthOController {
     @Inject
     private BenutzerService benutzerService;
 
+    // Hier befinden sich alle POST Requests
     @POST
     @Path("/register")
     @Produces(MediaType.APPLICATION_JSON)
