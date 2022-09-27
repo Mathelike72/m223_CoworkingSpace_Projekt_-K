@@ -19,9 +19,9 @@ public class BuchungenService {
         return query.getResultList();
     }
 
-    public List<Buchungen> findAll(int userId) {
-        var query = entityManager.createQuery("SELECT b FROM Buchungen b JOIN Benutzer u ON b.benutzer=u WHERE u.id= :Benutze_Id");
-        query.setParameter("Benutzer_Id", Benutzer_Id);
+    public List<Buchungen> findAll(int benutzerId) {
+        var query = entityManager.createQuery("SELECT b FROM Buchungen b JOIN Benutzer u ON b.benutzer=u WHERE u.id= :benutzer_Id");
+        query.setParameter("benutzer_Id", benutzerId);
         return query.getResultList();
     }
 

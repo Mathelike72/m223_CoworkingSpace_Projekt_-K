@@ -10,17 +10,18 @@ import java.util.Set;
 @Entity
 public class Benutzer implements Serializable{
   @Id
+  @Column(name = "benutzer_id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Schema(readOnly = true)
   private Long id;
   
-  @Column(nullable = false)
+  @Column(nullable = false, length = 40)
   private String firstName;
   
-  @Column(nullable = false)
+  @Column(nullable = false, length = 40)
   private String secoundName;
 
-  @Column(nullable = false)
+  @Column(nullable = false, unique = true)
   private String eMail;
 
   @Column(nullable = false)
@@ -120,5 +121,14 @@ public class Benutzer implements Serializable{
 
   public void setPleatze(List<Plaetze> plaetze) {
     this.plaetze = plaetze;
+  }
+
+  //Getter und Setter für isAdmin
+  public boolean isAdmin() {
+    return isAdmin;
+  }
+
+  public void setAdmin(boolean isAdmin) {
+    this.isAdmin = isAdmin;
   }
 }
