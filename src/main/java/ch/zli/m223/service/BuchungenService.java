@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import ch.zli.m223.model.Buchungen;
 import ch.zli.m223.model.Benutzer;
 
+
 @ApplicationScoped
 public class BuchungenService {
     @Inject
