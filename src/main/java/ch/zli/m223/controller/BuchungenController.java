@@ -14,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import ch.zli.m223.exceptions.NullValueException;
 import ch.zli.m223.model.Buchungen;
 import ch.zli.m223.service.BuchungenService;
 
@@ -26,7 +27,7 @@ public class BuchungenController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response create(Buchungen buchungen) {
+    public Response create(Buchungen buchungen) throws Exception {
         try {
             Buchungen createdBuchungen = buchungenService.createBuchungen(buchungen);
             return Response.ok(createdBuchungen).build();
@@ -56,7 +57,7 @@ public class BuchungenController {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateBuchungen(Buchungen buchungen) {
+    public Response updateBuchungen(Buchungen buchungen) throws IllegalArgumentException, TransactionRequiredException {
         try {
             return Response.ok(buchungenService.updateBuchungen(buchungen)).build();
         } catch (IllegalArgumentException e) {
@@ -81,7 +82,10 @@ public class BuchungenController {
     // Hier befinden sich alle DELETE Requests
     @Path("/{id}")
     @DELETE
-    public Response deleteBooking(Long id) {
+    public Response deleteBooking(Long id) throws NullValueException, IllegalArgumentException {
+        if (id < 0 || id == null) {
+            throw new NullValueException("Keine Buchung mit der id: " + id + " wurde gefunden");
+        }
         try {
             buchungenService.deleteBuchungen(id);
             return Response.noContent().build();

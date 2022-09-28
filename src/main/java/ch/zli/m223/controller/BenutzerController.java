@@ -28,7 +28,7 @@ public class BenutzerController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response create(Benutzer benutzer) {
+    public Response create(Benutzer benutzer) throws Exception {
         try {
             Benutzer createdBenutzer = benutzerService.createBenutzer(benutzer);
             return Response.ok(createdBenutzer).build();
@@ -49,7 +49,7 @@ public class BenutzerController {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateBenutzer(Benutzer benutzer) {
+    public Response updateBenutzer(Benutzer benutzer) throws IllegalArgumentException, TransactionRequiredException {
         try {
             return Response.ok(benutzerService.updateBenutzer(benutzer)).build();
         } catch (IllegalArgumentException e) {
@@ -64,7 +64,10 @@ public class BenutzerController {
     // Hier befinden sich alle DELETE Requests
     @Path("/{id}")
     @DELETE
-    public Response deleteBenutzer(Long id) {
+    public Response deleteBenutzer(Long id) throws NullValueException {
+        if (id < 0 || id == null) {
+            throw new NullValueException("Kein Benutzer mit der id: " + id + " wurde gefunden");
+        }
         try {
             benutzerService.deleteBenutzer(id);
             return Response.noContent().build();

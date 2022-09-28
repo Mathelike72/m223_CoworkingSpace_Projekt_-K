@@ -14,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import ch.zli.m223.exceptions.NullValueException;
 import ch.zli.m223.model.Plaetze;
 import ch.zli.m223.service.PlaetzeService;
 
@@ -26,7 +27,7 @@ public class PlaetzeController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response create(Plaetze plaetze) {
+    public Response create(Plaetze plaetze) throws Exception {
         try {
             Plaetze createdPlaetze = plaetzeService.createPlaetze(plaetze);
             return Response.ok(createdPlaetze).build();
@@ -47,7 +48,7 @@ public class PlaetzeController {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updatePlaetze(Plaetze plaetze) {
+    public Response updatePlaetze(Plaetze plaetze) throws IllegalArgumentException, TransactionRequiredException {
         try {
             return Response.ok(plaetzeService.updatePlaetze(plaetze)).build();
         } catch (IllegalArgumentException e) {
@@ -62,7 +63,10 @@ public class PlaetzeController {
     // Hier befinden sich alle DELETE Requests
     @Path("/{id}")
     @DELETE
-    public Response deletePlaetze(Long id) {
+    public Response deletePlaetze(Long id) throws NullValueException {
+        if (id < 0 || id == null) {
+            throw new NullValueException("Kein Platz mit der id: " + id + " wurde gefunden");
+        }
         try {
             plaetzeService.deletePlaetze(id);
             return Response.noContent().build();

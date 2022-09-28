@@ -1,13 +1,16 @@
 package ch.zli.m223.service;
 
 import java.util.List;
+
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import ch.zli.m223.exceptions.NullValueException;
 import ch.zli.m223.model.Abos;
 
-
+@ApplicationScoped
 public class AbosService {
     @Inject
     private EntityManager entityManager;
@@ -40,8 +43,12 @@ public class AbosService {
         return entityManager.merge(abos);
     }
 
-    public void deleteAbos(Long id) {
+    @Transactional
+    public void deleteAbos(Long id) throws NullValueException {
         var entity = entityManager.find(Abos.class, id);
+        if (entity == null) {
+            throw new NullValueException("No user with id: " + id + " was found");
+        }
         entityManager.remove(entity);
     }
 }

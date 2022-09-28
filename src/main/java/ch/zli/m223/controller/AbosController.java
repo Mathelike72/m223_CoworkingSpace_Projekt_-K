@@ -14,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import ch.zli.m223.exceptions.NullValueException;
 import ch.zli.m223.model.Abos;
 import ch.zli.m223.service.AbosService;
 
@@ -26,7 +27,7 @@ public class AbosController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response create(Abos abos) {
+    public Response create(Abos abos) throws Exception {
         try {
             Abos createdAbos = abosService.createAbos(abos);
             return Response.ok(createdAbos).build();
@@ -56,7 +57,7 @@ public class AbosController {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateAbos(Abos abos) {
+    public Response updateAbos(Abos abos) throws IllegalArgumentException, TransactionRequiredException {
         try {
             return Response.ok(abosService.updateAbos(abos)).build();
         } catch (IllegalArgumentException e) {
@@ -69,13 +70,15 @@ public class AbosController {
     }
     
     // Hier befinden sich alle DELETE Requests
-    @Path("/{id}")
     @DELETE
-    public Response deleteAbos(Long id) {
+    public Response deleteAbos(Long id) throws NullValueException {
+        if (id < 0 || id == null) {
+            throw new NullValueException("Kein Abo mit der id: " + id + " wurde gefunden");
+        }
         try {
             abosService.deleteAbos(id);
             return Response.noContent().build();
-        } catch (IllegalArgumentException e) {
+        } catch (NullValueException e) {
             System.out.println(e);
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
