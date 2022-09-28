@@ -10,6 +10,7 @@ import java.util.Set;
 @Entity
 public class Abos implements Serializable{
     @Id
+    @Column(name = "abos_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(readOnly = true)
     private Long id;
@@ -20,8 +21,8 @@ public class Abos implements Serializable{
     @Column(nullable = true)
     private boolean status;
 
-    @ManyToMany(mappedBy="abos")
     @JsonIgnore
+    @ManyToMany(mappedBy="abos")
     private Set<Benutzer> benutzer;
 
     //Getter und Setter der einzlenen Entitys Buchungen

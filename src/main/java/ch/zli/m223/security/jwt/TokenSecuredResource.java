@@ -1,8 +1,6 @@
 package ch.zli.m223.security.jwt;
 
-import java.security.Principal;
 import javax.annotation.security.PermitAll;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;

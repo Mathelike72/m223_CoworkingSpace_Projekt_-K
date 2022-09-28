@@ -15,22 +15,22 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ch.zli.m223.exceptions.NullValueException;
-import ch.zli.m223.model.Abos;
-import ch.zli.m223.service.AbosService;
+import ch.zli.m223.model.Plaetze;
+import ch.zli.m223.service.PlaetzeService;
 
-@Path("/abos")
-public class AbosController {
+@Path("/plaetze")
+public class PlaetzeController {
     @Inject
-    AbosService abosService;
+    PlaetzeService plaetzeService;
 
     // Hier befinden sich alle POST Requests
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response create(Abos abos) throws Exception {
+    public Response create(Plaetze plaetze) throws Exception {
         try {
-            Abos createdAbos = abosService.createAbos(abos);
-            return Response.ok(createdAbos).build();
+            Plaetze createdPlaetze = plaetzeService.createPlaetze(plaetze);
+            return Response.ok(createdPlaetze).build();
         } catch (Exception e) {
             System.out.println(e);
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -40,26 +40,17 @@ public class AbosController {
     // Hier befinden sich alle GET Requests
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Abos> index() {
-        return abosService.findAll();
+    public List<Plaetze> index() {
+        return plaetzeService.findAll();
     }
 
     // Hier befinden sich alle PUT Requests
-    @Path("/status/{id}/{status}")
-    @PUT
-    public Response changeAbosStatus(Long id, Boolean status) {
-        Abos abos = abosService.getAbos(id);
-        abos.setStatus(status);
-        abosService.updateAbos(abos);
-        return Response.ok().build();
-    }
-
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateAbos(Abos abos) throws IllegalArgumentException, TransactionRequiredException {
+    public Response updatePlaetze(Plaetze plaetze) throws IllegalArgumentException, TransactionRequiredException {
         try {
-            return Response.ok(abosService.updateAbos(abos)).build();
+            return Response.ok(plaetzeService.updatePlaetze(plaetze)).build();
         } catch (IllegalArgumentException e) {
             System.out.println(e);
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -70,15 +61,16 @@ public class AbosController {
     }
     
     // Hier befinden sich alle DELETE Requests
+    @Path("/{id}")
     @DELETE
-    public Response deleteAbos(Long id) throws NullValueException {
+    public Response deletePlaetze(Long id) throws NullValueException {
         if (id < 0 || id == null) {
-            throw new NullValueException("Kein Abo mit der id: " + id + " wurde gefunden");
+            throw new NullValueException("Kein Platz mit der id: " + id + " wurde gefunden");
         }
         try {
-            abosService.deleteAbos(id);
+            plaetzeService.deletePlaetze(id);
             return Response.noContent().build();
-        } catch (NullValueException e) {
+        } catch (IllegalArgumentException e) {
             System.out.println(e);
             return Response.status(Response.Status.BAD_REQUEST).build();
         }

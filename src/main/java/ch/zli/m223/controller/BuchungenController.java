@@ -23,16 +23,11 @@ public class BuchungenController {
     @Inject
     BuchungenService buchungenService;
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Buchungen> index() {
-        return buchungenService.findAll();
-    }
-
+    // Hier befinden sich alle POST Requests
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response create(Buchungen buchungen) {
+    public Response create(Buchungen buchungen) throws Exception {
         try {
             Buchungen createdBuchungen = buchungenService.createBuchungen(buchungen);
             return Response.ok(createdBuchungen).build();
@@ -42,31 +37,11 @@ public class BuchungenController {
         }
     }
 
-    @PUT
+    // Hier befinden sich alle GET Requests
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateBuchungen(Buchungen buchungen) {
-        try {
-            return Response.ok(buchungenService.updateBuchungen(buchungen)).build();
-        } catch (IllegalArgumentException e) {
-            System.out.println(e);
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        } catch (TransactionRequiredException e) {
-            System.out.println(e);
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-    }
-
-    @Path("/{id}")
-    @DELETE
-    public Response deleteBooking(Long id) {
-        try {
-            buchungenService.deleteBuchungen(id);
-            return Response.noContent().build();
-        } catch (NullValueException e) {
-            System.out.println(e);
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
+    public List<Buchungen> index() {
+        return buchungenService.findAll();
     }
 
     @Path("/review/{id}/{accept}")
@@ -78,13 +53,45 @@ public class BuchungenController {
         return Response.ok().build();
     }
 
-    @Path("/cancel/{id}")
-    @GET
-    public Response cancelBooking(Long id) {
+    // Hier befinden sich alle PUT Requests
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateBuchungen(Buchungen buchungen) throws IllegalArgumentException, TransactionRequiredException {
+        try {
+            return Response.ok(buchungenService.updateBuchungen(buchungen)).build();
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (TransactionRequiredException e) {
+            System.out.println(e);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
+
+    @Path("/ablehnen/{id}")
+    @PUT
+    public Response cancelBuchungen(Long id) {
         //TODO: get user id through claim if not admin
         Buchungen buchungen = buchungenService.getBuchungen(id);
         buchungen.setStatus(false);
         buchungenService.updateBuchungen(buchungen);
         return Response.ok().build();
+    }
+
+    // Hier befinden sich alle DELETE Requests
+    @Path("/{id}")
+    @DELETE
+    public Response deleteBooking(Long id) throws NullValueException, IllegalArgumentException {
+        if (id < 0 || id == null) {
+            throw new NullValueException("Keine Buchung mit der id: " + id + " wurde gefunden");
+        }
+        try {
+            buchungenService.deleteBuchungen(id);
+            return Response.noContent().build();
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
     }
 }
