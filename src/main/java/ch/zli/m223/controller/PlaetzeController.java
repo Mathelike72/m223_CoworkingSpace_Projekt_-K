@@ -2,6 +2,7 @@ package ch.zli.m223.controller;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.persistence.TransactionRequiredException;
 import javax.ws.rs.Consumes;
@@ -25,6 +26,7 @@ public class PlaetzeController {
 
     // Hier befinden sich alle POST Requests
     @POST
+    @RolesAllowed({"Admin"})
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create(Plaetze plaetze) throws Exception {
@@ -39,6 +41,7 @@ public class PlaetzeController {
 
     // Hier befinden sich alle GET Requests
     @GET
+    @RolesAllowed({"Benutzer", "Admin"})
     @Produces(MediaType.APPLICATION_JSON)
     public List<Plaetze> index() {
         return plaetzeService.findAll();
@@ -46,6 +49,7 @@ public class PlaetzeController {
 
     // Hier befinden sich alle PUT Requests
     @PUT
+    @RolesAllowed({"Admin"})
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updatePlaetze(Plaetze plaetze) throws IllegalArgumentException, TransactionRequiredException {
@@ -63,6 +67,7 @@ public class PlaetzeController {
     // Hier befinden sich alle DELETE Requests
     @Path("/{id}")
     @DELETE
+    @RolesAllowed({"Admin"})
     public Response deletePlaetze(Long id) throws NullValueException {
         if (id < 0 || id == null) {
             throw new NullValueException("Kein Platz mit der id: " + id + " wurde gefunden");

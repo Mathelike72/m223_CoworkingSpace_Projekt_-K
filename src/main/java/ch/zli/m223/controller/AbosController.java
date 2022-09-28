@@ -2,6 +2,7 @@ package ch.zli.m223.controller;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.persistence.TransactionRequiredException;
 import javax.ws.rs.Consumes;
@@ -39,6 +40,7 @@ public class AbosController {
 
     // Hier befinden sich alle GET Requests
     @GET
+    @RolesAllowed({"Benutzer", "Admin"})
     @Produces(MediaType.APPLICATION_JSON)
     public List<Abos> index() {
         return abosService.findAll();
@@ -47,6 +49,7 @@ public class AbosController {
     // Hier befinden sich alle PUT Requests
     @Path("/status/{id}/{status}")
     @PUT
+    @RolesAllowed({"Admin"})
     public Response changeAbosStatus(Long id, Boolean status) {
         Abos abos = abosService.getAbos(id);
         abos.setStatus(status);
@@ -55,6 +58,7 @@ public class AbosController {
     }
 
     @PUT
+    @RolesAllowed({"Admin"})
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateAbos(Abos abos) throws IllegalArgumentException, TransactionRequiredException {
@@ -71,6 +75,7 @@ public class AbosController {
     
     // Hier befinden sich alle DELETE Requests
     @DELETE
+    @RolesAllowed({"Admin"})
     public Response deleteAbos(Long id) throws NullValueException {
         if (id < 0 || id == null) {
             throw new NullValueException("Kein Abo mit der id: " + id + " wurde gefunden");
