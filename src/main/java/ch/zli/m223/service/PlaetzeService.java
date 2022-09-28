@@ -19,7 +19,7 @@ public class PlaetzeService {
     }
 
     public List<Plaetze> findAll(int benutzerId) {
-        var query = entityManager.createQuery("SELECT p FROM Plaetze p JOIN Benutzer u ON p.benutzer=u WHERE u.id= :benutzerId");
+        var query = entityManager.createQuery("SELECT p FROM Plaetze p JOIN Benutzer u ON p.benutzer=u WHERE u.id= :benutzerId", Plaetze.class);
         query.setParameter("benutzerId", benutzerId);
         return query.getResultList();
     }
