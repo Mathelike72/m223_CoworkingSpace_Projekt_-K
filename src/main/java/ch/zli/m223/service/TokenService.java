@@ -4,11 +4,12 @@ package ch.zli.m223.service;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import javax.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.jwt.Claims;
-
 import ch.zli.m223.model.Benutzer;
 import io.smallrye.jwt.build.Jwt;
 
+@ApplicationScoped
 public class TokenService {
     public String createToken(Benutzer benutzer) {
         String token = Jwt.issuer("https://github.com/Mathelike72")

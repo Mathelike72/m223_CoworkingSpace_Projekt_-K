@@ -2,7 +2,6 @@ package ch.zli.m223.model;
 
 import javax.persistence.*;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -21,7 +20,7 @@ public class Plaetze implements Serializable{
     @Column(nullable = true)
     private int platzNr;
 
-    @JsonIgnore
+    
     @ManyToMany(mappedBy="plaetze")
     private Set<Benutzer> benutzer;
 

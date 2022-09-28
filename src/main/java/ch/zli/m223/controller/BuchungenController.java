@@ -12,8 +12,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 import ch.zli.m223.exceptions.NullValueException;
 import ch.zli.m223.model.Buchungen;
@@ -77,12 +79,30 @@ public class BuchungenController {
     @Path("/ablehnen/{id}")
     @PUT
     @RolesAllowed({"Admin"})
-    public Response cancelBuchungen(Long id) {
-        //TODO: get user id through claim if not admin
-        Buchungen buchungen = buchungenService.getBuchungen(id);
-        buchungen.setStatus(false);
-        buchungenService.updateBuchungen(buchungen);
-        return Response.ok().build();
+    public Response cancelBuchungen(Long id, @Context SecurityContext ctx) {
+        
+        Long benutzerId = null;
+        if (ctx.isUserInRole("Benutzer")) {
+            benutzerId = Long.parseLong(ctx.getUserPrincipal().getName());
+        }
+
+        Buchungen Buchungen = buchungenService.getBuchungen(id);
+
+        if (benutzerId == null ? Buchungen == null : Buchungen == null || (Buchungen.getBenutzer()).getId() != benutzerId)
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+        Buchungen.setStatus(false);
+
+        try {
+            buchungenService.updateBuchungen(Buchungen);
+            return Response.ok().build();
+        } catch (TransactionRequiredException e) {
+            System.out.println(e);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
     }
 
     // Hier befinden sich alle DELETE Requests

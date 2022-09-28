@@ -2,9 +2,7 @@ package ch.zli.m223.model;
 
 import javax.persistence.*;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.io.Serializable;
 
 import java.util.List;
@@ -29,7 +27,7 @@ public class Benutzer implements Serializable{
   private String eMail;
 
   @Column(nullable = false, unique = true)
-  private String password;
+  private String passwort;
 
   @Column(nullable = false)
   private boolean isAdmin;
@@ -96,11 +94,11 @@ public class Benutzer implements Serializable{
 
   //Getter und Setter für password
   public String getPassword() {
-    return password;
+    return passwort;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public void setPassword(String passwort) {
+    this.passwort = passwort;
   }
 
   //Getter und Setter für Buchungen
