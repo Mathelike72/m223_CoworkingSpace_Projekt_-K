@@ -1,5 +1,6 @@
 /workspace/src/main/java/ch/zli/m223/service/PlaetzeService.java
 /workspace/src/main/java/ch/zli/m223/controller/AbosController.java
+/workspace/src/main/java/ch/zli/m223/service/TokenService.java
 /workspace/src/main/java/ch/zli/m223/service/BuchungenService.java
 /workspace/src/main/java/ch/zli/m223/exceptions/InvalidLoginException.java
 /workspace/src/main/java/ch/zli/m223/model/Plaetze.java
@@ -9,6 +10,7 @@
 /workspace/src/main/java/ch/zli/m223/exceptions/NullValueException.java
 /workspace/src/main/java/ch/zli/m223/model/Benutzer.java
 /workspace/src/main/java/ch/zli/m223/model/Buchungen.java
+/workspace/src/main/java/ch/zli/m223/exceptions/InvalidValueException.java
 /workspace/src/main/java/ch/zli/m223/security/jwt/TokenSecuredResource.java
 /workspace/src/main/java/ch/zli/m223/controller/AuthOController.java
 /workspace/src/main/java/ch/zli/m223/controller/PlaetzeController.java

@@ -2,6 +2,7 @@ package ch.zli.m223.controller;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.persistence.TransactionRequiredException;
 import javax.ws.rs.Consumes;
@@ -26,6 +27,7 @@ public class BenutzerController {
 
     // Hier befinden sich alle POST Requests
     @POST
+    @RolesAllowed({"Admin"})
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create(Benutzer benutzer) throws Exception {
@@ -40,6 +42,7 @@ public class BenutzerController {
 
     // Hier befinden sich alle GET Requests
     @GET
+    @RolesAllowed({"Admin"})
     @Produces(MediaType.APPLICATION_JSON)
     public List<Benutzer> index() {
         return benutzerService.findAll();
@@ -47,6 +50,7 @@ public class BenutzerController {
 
     // Hier befinden sich alle PUT Requests
     @PUT
+    @RolesAllowed({"Admin"})
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateBenutzer(Benutzer benutzer) throws IllegalArgumentException, TransactionRequiredException {
@@ -64,6 +68,7 @@ public class BenutzerController {
     // Hier befinden sich alle DELETE Requests
     @Path("/{id}")
     @DELETE
+    @RolesAllowed({"Admin"})
     public Response deleteBenutzer(Long id) throws NullValueException {
         if (id < 0 || id == null) {
             throw new NullValueException("Kein Benutzer mit der id: " + id + " wurde gefunden");

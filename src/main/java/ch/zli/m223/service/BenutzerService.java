@@ -1,7 +1,6 @@
 package ch.zli.m223.service;
 
 import java.util.List;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityExistsException;
@@ -18,6 +17,9 @@ import ch.zli.m223.model.Login;
 public class BenutzerService {
     @Inject
     private EntityManager entityManager;
+
+    @Inject
+    private TokenService tokenService;
 
     public List<Benutzer> findAll() {
         var query = entityManager.createQuery("FROM Benutzer", Benutzer.class);
@@ -57,28 +59,38 @@ public class BenutzerService {
     }
 
     public String login(Login login) throws InvalidLoginException {
-        var entity = entityManager.find(Benutzer.class, login.getEmail());
+        var query = entityManager.createQuery("SELECT u FROM Benutzer u Where u.email = :email");
+        query.setParameter("email", login.getEmail());
+        Benutzer entity = (Benutzer) query.getSingleResult();
+
         if (entity == null) {
             throw new InvalidLoginException("Email doesn't exist");
-        } else if (entity.getPassword().equals(login.getPassword())) {
-            throw new InvalidLoginException("Wrong Password");
+        } else if (entity.getPassword() == login.getPassword()) {
+            throw new InvalidLoginException("Wrong Password: " + entity.getPassword() + " vs " + login.getPassword());
         }
 
-        //TODO: return real token
-        return "THIS IS A TOKEN";
+        String derTokenIstSicher = tokenService.createToken(entity);
+        return derTokenIstSicher;
     }
-    
+
     public String register(Benutzer benutzer) throws EntityExistsException, Exception {
         try {
+            List<Benutzer> benutzers = this.findAll();
+
+            if (benutzers.isEmpty()) {
+                benutzer.setAdmin(true);
+            } else {
+                benutzer.setAdmin(false);
+            }
+
             createBenutzer(benutzer);
         } catch (EntityExistsException e) {
             throw e;
         } catch (Exception e) {
             throw e;
         }
-
-        //TODO: return real token
-        return "This is a token";
+        String derTokenIstSicher = tokenService.createToken(benutzer);
+        return derTokenIstSicher;
     }
 }
 

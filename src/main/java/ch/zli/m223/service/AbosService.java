@@ -1,7 +1,6 @@
 package ch.zli.m223.service;
 
 import java.util.List;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -21,7 +20,7 @@ public class AbosService {
     }
 
     public List<Abos> findAll(int benutzerId) {
-        var query = entityManager.createQuery("SELECT b FROM Abos b JOIN Benutzer u ON b.benutzer=u WHERE u.id= :benutzerId");
+        var query = entityManager.createQuery("SELECT b FROM Abos b JOIN Benutzer u ON b.benutzer=u WHERE u.id= :benutzerId", Abos.class);
         query.setParameter("benutzerId", benutzerId);
         return query.getResultList();
     }
