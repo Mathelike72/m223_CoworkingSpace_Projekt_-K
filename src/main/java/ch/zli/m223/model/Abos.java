@@ -21,8 +21,8 @@ public class Abos implements Serializable{
     @Column(nullable = true)
     private boolean status;
 
-    @ManyToMany(mappedBy="abos")
     @JsonIgnore
+    @ManyToMany(mappedBy="abos")
     private Set<Benutzer> benutzer;
 
     //Getter und Setter der einzlenen Entitys Buchungen

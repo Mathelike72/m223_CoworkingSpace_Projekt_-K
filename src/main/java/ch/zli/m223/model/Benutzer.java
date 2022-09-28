@@ -2,6 +2,9 @@ package ch.zli.m223.model;
 
 import javax.persistence.*;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 
 import java.util.List;
@@ -31,9 +34,11 @@ public class Benutzer implements Serializable{
   @Column(nullable = false)
   private boolean isAdmin;
 
+  @JsonIgnore
   @OneToMany(mappedBy="benutzer")
   private Set<Buchungen> buchungen;
 
+  @JsonIgnore
   @ManyToMany
   @JoinTable(
     name = "benutzer_abos",
@@ -42,6 +47,7 @@ public class Benutzer implements Serializable{
   )
   private List<Abos> abos;
 
+  @JsonIgnore
   @ManyToMany
   @JoinTable(
     name = "benutzer_plaetze",

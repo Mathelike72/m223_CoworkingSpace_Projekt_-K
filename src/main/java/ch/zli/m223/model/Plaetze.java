@@ -21,8 +21,8 @@ public class Plaetze implements Serializable{
     @Column(nullable = true)
     private int platzNr;
 
-    @ManyToMany(mappedBy="plaetze")
     @JsonIgnore
+    @ManyToMany(mappedBy="plaetze")
     private Set<Benutzer> benutzer;
 
     //Getter und Setter der einzlenen Entitys Buchungen
