@@ -19,7 +19,7 @@ public class AuthOControllerTest {
         Login invalidLogin = new Login();
 
         invalidLogin.setEmail("invalid@invalid.invalid");
-        invalidLogin.setPassword("securepassword");
+        invalidLogin.setPassword("topsecreat");
 
         given()
                 .contentType(ContentType.JSON)
@@ -33,7 +33,7 @@ public class AuthOControllerTest {
     public void successfulLogin() {
         Login successfulLogin = new Login();
 
-        successfulLogin.setEmail("lfredi0@eepurl.com");
+        successfulLogin.setEmail("meinemail@bosshart.com");
         successfulLogin.setPassword("1QWrfIEgoq");
 
         given()
@@ -66,9 +66,9 @@ public class AuthOControllerTest {
         } catch (InvalidValueException e) {
 
         }
-        validBenutzer.setFirstName("joe");
-        validBenutzer.setSecoundName("biden");
-        validBenutzer.setPassword("securityismypassion");
+        validBenutzer.setFirstName("deine");
+        validBenutzer.setSecoundName("mutter");
+        validBenutzer.setPassword("weilicheskann");
 
         given()
                 .contentType(ContentType.JSON)

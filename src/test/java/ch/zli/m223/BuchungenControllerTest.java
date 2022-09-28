@@ -29,7 +29,7 @@ public class BuchungenControllerTest {
         Benutzer benutzer = new Benutzer();
 
         try {
-            benutzer.setEMail("lfredi0@eepurl.com");
+            benutzer.setEMail("meinemail@bosshart.com");
         } catch (InvalidValueException e) {
 
         }
@@ -62,11 +62,11 @@ public class BuchungenControllerTest {
         Benutzer benutzer = new Benutzer();
 
         try {
-            benutzer.setEMail("lfredi0@eepurl.com");
+            benutzer.setEMail("meinemail@bosshart.com");
         } catch (InvalidValueException e) {
 
         }
-        benutzer.setPassword("1QWrfIEgoq");
+        benutzer.setPassword("yjsd2s9jw");
         benutzer.setId(1L);
         benutzer.setAdmin(true);
 
