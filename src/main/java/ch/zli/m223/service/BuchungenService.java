@@ -6,7 +6,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import ch.zli.m223.model.Buchungen;
-import ch.zli.m223.model.Benutzer;
 
 
 @ApplicationScoped
@@ -20,7 +19,7 @@ public class BuchungenService {
     }
 
     public List<Buchungen> findAll(int benutzerId) {
-        var query = entityManager.createQuery("SELECT b FROM Buchungen b JOIN Benutzer u ON b.benutzer=u WHERE u.id= :benutzerId");
+        var query = entityManager.createQuery("SELECT b FROM Buchungen b JOIN Benutzer u ON b.benutzer=u WHERE u.id= :benutzerId", Buchungen.class);
         query.setParameter("benutzerId", benutzerId);
         return query.getResultList();
     }

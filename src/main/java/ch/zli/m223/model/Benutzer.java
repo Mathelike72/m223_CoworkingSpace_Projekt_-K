@@ -2,7 +2,9 @@ package ch.zli.m223.model;
 
 import javax.persistence.*;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+
 import java.util.List;
 import java.util.Set;
 
@@ -24,15 +26,17 @@ public class Benutzer implements Serializable{
   @Column(nullable = false, unique = true)
   private String eMail;
 
-  @Column(nullable = false)
-  private String password;
+  @Column(nullable = false, unique = true)
+  private String passwort;
 
   @Column(nullable = false)
   private boolean isAdmin;
 
+  @JsonIgnore
   @OneToMany(mappedBy="benutzer")
   private Set<Buchungen> buchungen;
 
+  @JsonIgnore
   @ManyToMany
   @JoinTable(
     name = "benutzer_abos",
@@ -41,6 +45,7 @@ public class Benutzer implements Serializable{
   )
   private List<Abos> abos;
 
+  @JsonIgnore
   @ManyToMany
   @JoinTable(
     name = "benutzer_plaetze",
@@ -89,11 +94,11 @@ public class Benutzer implements Serializable{
 
   //Getter und Setter für password
   public String getPassword() {
-    return password;
+    return passwort;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public void setPassword(String passwort) {
+    this.passwort = passwort;
   }
 
   //Getter und Setter für Buchungen

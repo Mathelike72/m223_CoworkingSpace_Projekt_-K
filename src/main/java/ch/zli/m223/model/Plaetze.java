@@ -2,7 +2,6 @@ package ch.zli.m223.model;
 
 import javax.persistence.*;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -10,6 +9,7 @@ import java.util.Set;
 @Entity
 public class Plaetze implements Serializable{
     @Id
+    @Column(name = "plaetze_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(readOnly = true)
     private Long id;
@@ -20,8 +20,8 @@ public class Plaetze implements Serializable{
     @Column(nullable = true)
     private int platzNr;
 
+    
     @ManyToMany(mappedBy="plaetze")
-    @JsonIgnore
     private Set<Benutzer> benutzer;
 
     //Getter und Setter der einzlenen Entitys Buchungen
