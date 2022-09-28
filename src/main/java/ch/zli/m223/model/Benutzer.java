@@ -3,6 +3,9 @@ package ch.zli.m223.model;
 import javax.persistence.*;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import ch.zli.m223.exceptions.InvalidValueException;
+
 import java.io.Serializable;
 
 import java.util.List;
@@ -88,7 +91,7 @@ public class Benutzer implements Serializable{
     return eMail;
   }
 
-  public void setEMail(String eMail) {
+  public void setEMail(String eMail) throws InvalidValueException {
     this.eMail = eMail;
   }
 
