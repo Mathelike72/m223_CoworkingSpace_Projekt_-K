@@ -2,6 +2,7 @@ package ch.zli.m223.controller;
 
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.persistence.EntityExistsException;
 
@@ -28,9 +29,9 @@ public class AuthOController {
     @Inject
     private BenutzerService benutzerService;
 
-    // Hier befinden sich alle POST Requests
     @POST
     @Path("/register")
+    @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response register(Benutzer benutzer) {
@@ -48,6 +49,7 @@ public class AuthOController {
 
     @POST
     @Path("/login")
+    @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(Login login) {
